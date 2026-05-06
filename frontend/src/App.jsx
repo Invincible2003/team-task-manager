@@ -6,6 +6,8 @@ function App() {
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ZmFjMzc3NmNmNDUyNDI2OGQ4MWY3MCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3ODA0MTgwNywiZXhwIjoxNzc4NjQ2NjA3fQ.iSicWvd6oTZo1el8V01xkjoRWCVr6lgWmAIAZd9bXso";
 
+  const API = "https://team-task-manager-production-67f3.up.railway.app";
+
   const [dashboard, setDashboard] = useState({
     totalTasks: 0,
     completedTasks: 0,
@@ -33,7 +35,7 @@ function App() {
     try {
 
       const res = await axios.get(
-        "http://localhost:5000/api/dashboard",
+        `${API}/api/dashboard`,
         {
           headers: {
             Authorization: token,
@@ -56,7 +58,7 @@ function App() {
     try {
 
       const res = await axios.get(
-        "http://localhost:5000/api/tasks",
+        `${API}/api/tasks`,
         {
           headers: {
             Authorization: token,
@@ -88,7 +90,7 @@ function App() {
     try {
 
       await axios.put(
-        `http://localhost:5000/api/tasks/${id}`,
+        `${API}/api/tasks/${id}`,
         {
           status: "Done",
         },
@@ -117,7 +119,7 @@ function App() {
     try {
 
       await axios.post(
-        "http://localhost:5000/api/tasks",
+        `${API}/api/tasks`,
         {
           title: formData.title,
           description: formData.description,
@@ -155,8 +157,6 @@ function App() {
         Team Task Manager
       </h1>
 
-      {/* Dashboard Cards */}
-
       <div className="mt-10 grid grid-cols-4 gap-5">
 
         <div className="bg-white p-6 rounded-xl shadow">
@@ -188,8 +188,6 @@ function App() {
         </div>
 
       </div>
-
-      {/* Create Task Form */}
 
       <div className="bg-white p-6 rounded-xl shadow mt-10">
 
@@ -241,8 +239,6 @@ function App() {
         </form>
 
       </div>
-
-      {/* Task List */}
 
       <div className="bg-white p-6 rounded-xl shadow mt-10">
 
