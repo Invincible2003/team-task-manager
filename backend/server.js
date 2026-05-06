@@ -6,7 +6,12 @@ require("dotenv").config();
 const app = express();
 const authMiddleware = require("./middleware/authMiddleware");
 
-app.use(cors());
+const cors = require("cors");
+
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+}));
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI)
