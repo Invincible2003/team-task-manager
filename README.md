@@ -1,7 +1,7 @@
 # Team Task Manager
 
 A full-stack Team Task Manager web application built using the MERN stack.  
-This application allows users to create, manage, and track tasks with dashboard analytics.
+This application allows users to create, manage, and track tasks with dashboard analytics .
 
 ## 🚀 Live Demo
 
