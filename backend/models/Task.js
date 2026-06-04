@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { createModelWrapper } = require("./dbWrapper");
 
 const taskSchema = new mongoose.Schema({
 
@@ -35,4 +36,5 @@ const taskSchema = new mongoose.Schema({
   timestamps: true
 });
 
-module.exports = mongoose.model("Task", taskSchema);
+const TaskModel = mongoose.model("Task", taskSchema);
+module.exports = createModelWrapper("Task", TaskModel);

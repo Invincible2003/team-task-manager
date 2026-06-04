@@ -10,12 +10,40 @@ const authMiddleware = require("./middleware/authMiddleware");
 app.use(cors({
   origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 }));
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log("MongoDB Connected"))
-.catch((err) => console.log(err));
+const mongoURI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/taskmanager";
+
+mongoose.connect(mongoURI, {
+  serverSelectionTimeoutMS: 3000,
+  connectTimeoutMS: 3000,
+})
+  .then(() => {
+    console.log("MongoDB Connected Successfully");
+    global.mongoConnectionFailed = false;
+  })
+  .catch((err) => {
+    global.mongoConnectionFailed = true;
+    console.error("\n============================================================");
+    console.error("DATABASE CONNECTION ERROR: Fallback to Local JSON DB Active!");
+    console.error("Could not connect to MongoDB Atlas / Local MongoDB.");
+    console.error("Reason:", err.message);
+    console.error("\nWe have automatically enabled a local JSON-file fallback database.");
+    console.error("You can fully use the app! All data is saved in 'backend/data/db.json'.");
+    console.error("\nTo connect to a real database:");
+    console.error("1. If using MongoDB Atlas, make sure your IP is whitelisted.");
+    console.error("2. If using local MongoDB, start the service and check port 27017.");
+    console.error("============================================================\n");
+  });
+
+app.get("/api/db-status", (req, res) => {
+  res.json({
+    connected: mongoose.connection.readyState === 1,
+    uri: mongoURI.replace(/\/\/.*@/, "//***:***@"), // Hide password
+  });
+});
 
 app.get("/", (req, res) => {
   res.send("API Running");

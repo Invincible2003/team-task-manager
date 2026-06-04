@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { createModelWrapper } = require("./dbWrapper");
 
 const projectSchema = new mongoose.Schema({
 
@@ -27,4 +28,5 @@ const projectSchema = new mongoose.Schema({
   timestamps: true
 });
 
-module.exports = mongoose.model("Project", projectSchema);
+const ProjectModel = mongoose.model("Project", projectSchema);
+module.exports = createModelWrapper("Project", ProjectModel);
